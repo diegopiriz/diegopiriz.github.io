@@ -5,8 +5,3 @@ body {
   font-family: 'Rouge Script', cursive;
   font-size: 200%;
 }
-
-.carousel-item > div {
-  padding-left: 50px;
-  padding-right: 50px;
-}
