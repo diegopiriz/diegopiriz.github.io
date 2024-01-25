@@ -1,0 +1,21 @@
+
+.carousel-item > div {
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+#fireworks {
+	position: absolute;
+	top:0px; 
+	bottom:0px; 
+	width: 100%;
+}
+
+#happy {
+	display: none;
+	bottom: 50px;
+}
+
+#answer-yes, #answer-no {
+	font-family: Arial, Helvetica, sans-serif;
+}
