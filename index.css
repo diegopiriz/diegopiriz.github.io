@@ -1,21 +1,14 @@
-
-.carousel-item > div {
-	padding-left: 50px;
-	padding-right: 50px;
-}
-
-#fireworks {
+.footer {
 	position: absolute;
-	top:0px; 
-	bottom:0px; 
+	bottom: 0;
 	width: 100%;
+	height: 60px; /* Set the fixed height of the footer here */
+	line-height: 60px; /* Vertically center the text there */
+	/background-color: black;
+	font-color: white;
+	font-family: 'Arial';
 }
 
-#happy {
-	display: none;
-	bottom: 50px;
-}
-
-#answer-yes, #answer-no {
-	font-family: Arial, Helvetica, sans-serif;
+.footer a {
+	text-decoration: none;
 }
