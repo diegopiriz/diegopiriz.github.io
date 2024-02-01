@@ -1,12 +1,11 @@
-var cookieName = "quote_index";
 
 function addQuote(quotesRepository) {
-    var index = $.cookie(cookieName);
-    if(index === undefined) {
-        index = Math.floor(Math.random() * quotesRepository.length)
-        $.cookie(cookieName, index, { expires: 1, path: '/' });
-    }
-    var quote = quotesRepository[index];
+    const now = new Date();
+    const fullDaysSinceEpoch = Math.floor(now/8.64e7);
+    console.log(fullDaysSinceEpoch);
+
+    const index = fullDaysSinceEpoch % quotesRepository.length;
+    const quote = quotesRepository[index];
     $("#quote").html(quote.quote);
     $("#author").html(quote.author);
 }
