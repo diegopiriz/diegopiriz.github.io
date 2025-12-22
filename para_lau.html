@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Lau</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Optional: nicer serif for the quote -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Palette from the reference image */
+      --rose-900: #c19090;
+      --rose-700: #cc9b9a;
+      --rose-500: #d7a5a5;
+      --rose-300: #e3b0b0;
+      --rose-200: #eebbbb;
+      --rose-100: #f6c8c7;
+      --rose-050: #f9d6d5;
+      --rose-025: #fbe3e3;
+      --rose-010: #fdf1f1;
+      --white: #ffffff;
+
+      --ink: #6f4a4a;
+      --muted: rgba(111, 74, 74, 0.7);
+      --shadow: 0 18px 45px rgba(0,0,0,.10);
+      --radius: 22px;
+    }
+
+    body{
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 400px at 50% 0%, rgba(227,176,176,.65), rgba(227,176,176,0) 60%),
+        linear-gradient(180deg, var(--rose-050) 0%, var(--rose-010) 40%, var(--white) 100%);
+      color: var(--ink);
+    }
+
+    /* Splash */
+    body.no-scroll{ overflow: hidden; }
+
+    .splash-screen{
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: grid;
+      place-items: center;
+      padding: 2rem 1rem;
+      background:
+        radial-gradient(900px 400px at 50% 0%, rgba(227,176,176,.70), rgba(227,176,176,0) 60%),
+        linear-gradient(180deg, var(--rose-050) 0%, var(--rose-010) 50%, var(--white) 100%);
+      transition: opacity .45s ease, visibility .45s ease;
+      opacity: 1;
+      visibility: visible;
+    }
+    .splash-screen.is-hidden{
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .splash-inner{
+      width: min(560px, 100%);
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(204,155,154,.35);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .splash-inner img{
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      border: 1px solid rgba(204,155,154,.45);
+      display: block;
+    }
+    .splash-title{
+      margin-top: .9rem;
+      letter-spacing: .12rem;
+      text-transform: uppercase;
+      color: rgba(111,74,74,.75);
+      font-weight: 600;
+      font-size: .9rem;
+    }
+    .splash-sub{
+      margin-top: .35rem;
+      color: rgba(111,74,74,.6);
+      font-size: .95rem;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .splash-screen{ transition: none; }
+    }
+
+    .shell{
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 3rem 1rem;
+    }
+
+    .card-soft{
+      width: min(860px, 100%);
+      background: rgba(255,255,255,.70);
+      border: 1px solid rgba(204,155,154,.35);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+    }
+
+    .quote{
+      font-family: "Playfair Display", Georgia, serif;
+      color: var(--ink);
+      text-align: center;
+      font-style: italic;
+      letter-spacing: .2px;
+      line-height: 1.25;
+    }
+
+    .quote small{
+      display: block;
+      font-style: normal;
+      letter-spacing: .6px;
+      color: var(--muted);
+      margin-top: .75rem;
+      font-size: .95rem;
+      text-transform: uppercase;
+    }
+
+    .divider{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      margin: 1.25rem 0 1.5rem;
+      color: rgba(111,74,74,.55);
+    }
+    .divider::before,
+    .divider::after{
+      content: "";
+      height: 1px;
+      width: 72px;
+      background: rgba(204,155,154,.65);
+    }
+
+    .photo-frame{
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(204,155,154,.45);
+      background: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.35));
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+    }
+
+    .photo-frame img{
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .btn-rose{
+      --bs-btn-bg: var(--rose-700);
+      --bs-btn-border-color: var(--rose-700);
+      --bs-btn-hover-bg: var(--rose-900);
+      --bs-btn-hover-border-color: var(--rose-900);
+      --bs-btn-active-bg: var(--rose-900);
+      --bs-btn-active-border-color: var(--rose-900);
+      --bs-btn-color: #fff;
+      --bs-btn-hover-color: #fff;
+
+      border-radius: 999px;
+      padding: .85rem 1.25rem;
+      box-shadow: 0 10px 22px rgba(193,144,144,.35);
+      letter-spacing: .2px;
+    }
+
+    .hint{
+      color: var(--muted);
+      text-align: center;
+      font-size: .95rem;
+      /* preserve newlines in note texts */
+      white-space: pre-wrap;
+    }
+
+    /* Make the photo feel “center hero” like the middle mockup */
+    @media (min-width: 992px){
+      .card-body{
+        padding: 3rem 3.25rem !important;
+      }
+    }
+
+    /* small fade-in for dynamic content */
+    .daily-fade{
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+    .daily-fade.visible{
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</head>
+
+<body class="no-scroll">
+  <!-- Splash screen (2 seconds) -->
+  <div id="splash" class="splash-screen" role="status" aria-live="polite" aria-label="Loading">
+    <div class="splash-inner">
+      <img
+        src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1400&q=80"
+        alt=""
+      >
+      <div class="splash-title">Para Lau</div>
+      <div class="splash-sub">Recargando de amor...</div>
+      <div class="mt-3">
+        <div class="spinner-border spinner-border-sm" aria-hidden="true"></div>
+        <span class="visually-hidden">Loading</span>
+      </div>
+    </div>
+  </div>
+
+  <main class="shell">
+    <section class="card card-soft">
+      <div class="card-body p-4 p-md-5">
+        <!-- Quote -->
+        <header class="mb-4">
+          <h1 class="quote display-6 mb-0">
+            <span id="quoteText">“The best time for new beginnings is now.”</span>
+            <small id="quoteAttribution"></small>
+          </h1>
+          <div class="divider" aria-hidden="true">♥</div>
+        </header>
+
+        <!-- Photo -->
+        <figure class="photo-frame mx-auto mb-4 daily-fade" id="photoFrame" style="max-width: 680px;">
+          <img id="heroImage"
+            src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1400&q=80"
+            alt="photo"
+          >
+        </figure>
+
+        <!-- Separator between photo and actions -->
+        <div class="divider" aria-hidden="true">♥</div>
+
+        <!-- Link / Note (note above CTA) -->
+        <div class="text-center">
+          <p class="hint mt-3 mb-3" id="noteText">
+            Dummy link for now. Replace the image, quote, and URL with real content.
+          </p>
+          <a id="ctaLink" class="btn btn-rose btn-lg" href="#" role="button" target="_blank" rel="noopener">
+            <span id="ctaText">Ver Video</span> <span class="ms-1" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Script: splash screen -->
+  <script>
+    (function(){
+      function hideSplash(){
+        const splash = document.getElementById('splash');
+        if(!splash) return;
+
+        splash.classList.add('is-hidden');
+        document.body.classList.remove('no-scroll');
+
+        splash.addEventListener('transitionend', function(){
+          splash.remove();
+        }, { once: true });
+      }
+
+      // Show immediately, hide after 3 seconds
+      window.addEventListener('DOMContentLoaded', function(){
+        window.setTimeout(hideSplash, 3000);
+      });
+    })();
+  </script>
+
+  <!-- Script: daily rotation -->
+  <script>
+    (function(){
+      // Hardcoded list of items (cleaned from CSV): quotes are plain text, attribution moved when available
+      const dailyItems = [
+        {
+          quote: "Imagina que todo el mundo fuera algo más tierno, amable y cariñoso. Con ese pequeño esfuerzo cambiaríamos el mundo de un día para otro.",
+          attribution: 'John Kazebic',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.47.48.jpeg',
+          note: 'Video de animalitos (cute)',
+          link: 'https://www.youtube.com/watch?v=ZyyDWi6TkAc'
+        },
+        {
+          quote: 'Sometimes crying or laughing are the only options left, and laughing feels better right now.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.48.05.jpeg',
+          note: 'AI o TV mexicana?',
+          link: 'https://www.youtube.com/watch?v=inh4ja_6b8c'
+        },
+        {
+          quote: 'A Duvalín no lo cambio por nada.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.48.35.jpeg',
+          note: 'Comerciales viejitos',
+          link: 'https://www.youtube.com/watch?v=QrQtcwADPSY'
+        },
+        {
+          quote: 'Si puedes soñarlo, puedes hacerlo.',
+          attribution: 'Walt Disney',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.49.13.jpeg',
+          note: `Hoy toca Disney modo detectives.\\n\\nTe dejo teorías y curiosidades para entretenerte.`,
+          link: 'https://www.youtube.com/watch?v=98B6gT9dFow'
+        },
+        {
+          quote: 'Do the best you can until you know better. Then when you know better, do better.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.49.29.jpeg',
+          note: 'Video inspirador',
+          link: 'https://www.youtube.com/watch?v=jY_KmPeP4mA'
+        },
+        {
+          quote: 'Being a mother means having your heart walk around outside your body.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.50.26.jpeg',
+          note: `Hoy va una canción bonita sobre el amor de las mamás.\\n(La que bailaríamos en mi boda con mi mamá)`,
+          link: 'https://www.youtube.com/watch?v=BRbDcLUWzOw&list=LL&index=1'
+        },
+        {
+          quote: 'Where flowers bloom, so does hope.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.50.53.jpeg',
+          note: 'Uno de mis Tiny Desk favoritos',
+          link: 'https://www.youtube.com/watch?v=L_BHC2l30pY&list=LL&index=6'
+        },
+        {
+          quote: 'Tough times never last, but tough people do.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.52.18.jpeg',
+          note: 'Un video sobre felicidad',
+          link: 'https://www.youtube.com/watch?v=e-or_D-qNqM&list=LL&index=20'
+        },
+        {
+          quote: 'You can cut all the flowers but you cannot keep Spring from coming.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.53.25.jpeg',
+          note: 'Historia interesante en formato video',
+          link: 'https://www.youtube.com/watch?v=xuCn8ux2gbs&list=LL&index=25'
+        },
+        {
+          quote: 'The earth laughs in flowers.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.54.06.jpeg',
+          note: 'Video sobre la tierra y la naturaleza',
+          link: 'https://www.youtube.com/watch?v=NAN1kt4SG9E&list=LL&index=103'
+        },
+        {
+          quote: 'Después de todo, mañana será otro día.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.54.30.jpeg',
+          note: 'Un día a la vez. Hoy te dejo un video sobre estaciones para recordar que todo cambia y todo pasa.',
+          link: 'https://www.youtube.com/watch?v=cvR1s9nChSM&list=LL&index=151'
+        },
+        {
+          quote: '"Ño"',
+          attribution: 'Andrés',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.55.00.jpeg',
+          note: 'La sabiduría de los niños',
+          link: 'https://www.youtube.com/watch?v=f0tEcxLDDd4&list=LL&index=157'
+        },
+        {
+          quote: "Oh, the places you'll go!",
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.55.41.jpeg',
+          note: 'Sobre lugares a donde viajar con niños',
+          link: 'https://www.youtube.com/watch?v=GtT1GApNuBs&t=11s'
+        },
+        {
+          quote: '',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.57.38 (1).jpeg',
+          note: 'Este video porque sé que te gusta el diseño de interiores',
+          link: 'https://www.youtube.com/watch?v=u8dS-bnawuc'
+        },
+        {
+          quote: '',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.57.38 (2).jpeg',
+          note: 'Por alguna razón este video me gusta mucho',
+          link: 'https://www.youtube.com/watch?v=h6fcK_fRYaI&t=183s'
+        },
+        {
+          quote: 'Sometimes crying or laughing are the only options left, and laughing feels better right now.',
+          attribution: '',
+          photo: 'photos/WhatsApp Image 2025-12-22 at 15.57.38.jpeg',
+          note: 'Chistes locales de médicos',
+          link: 'https://www.youtube.com/watch?v=i_ejHjJabi0'
+        }
+      ];
+
+      // Compute day index based on local browser date with base 2026-01-01
+      // Element 0 should correspond to 2026-01-01, element 1 -> 2026-01-02, etc.
+      // Use a modulo that always returns a non-negative index so negative days wrap.
+      const baseLocal = new Date(2026, 0, 2); // local midnight 2026-01-01
+      const todayLocalMidnight = new Date();
+      todayLocalMidnight.setHours(0,0,0,0);
+      // Use Math.round to avoid DST-related fractional-day issues when dividing by ms/day
+      const daysSinceBase = Math.round((todayLocalMidnight - baseLocal) / 86400000);
+      const len = dailyItems.length;
+      const idx = Math.abs(daysSinceBase) % len;
+      const item = dailyItems[idx];
+
+      // Helper to set text safely
+      function setText(id, text){
+        const el = document.getElementById(id);
+        if(el) el.textContent = text;
+      }
+
+      // Apply values to DOM
+      // Make the whole quote optional: if no quote, hide the header (and attribution)
+      const quoteEl = document.getElementById('quoteText');
+      const headerEl = quoteEl ? quoteEl.closest('header') : null;
+      if(!item.quote || String(item.quote).trim() === ''){
+        if(headerEl) headerEl.style.display = 'none';
+      } else {
+        setText('quoteText', item.quote);
+        // Make attribution optional: show it only when provided and non-empty
+        const attributionEl = document.getElementById('quoteAttribution');
+        if(attributionEl){
+          if(item.attribution && String(item.attribution).trim()){
+            attributionEl.textContent = item.attribution;
+            attributionEl.style.display = '';
+          } else {
+            attributionEl.textContent = '';
+            attributionEl.style.display = 'none';
+          }
+        }
+      }
+
+      const img = document.getElementById('heroImage');
+      if(img){
+        img.src = item.photo;
+      }
+      const cta = document.getElementById('ctaLink');
+      if(cta){
+        cta.href = item.link || '#';
+      }
+      setText('noteText', item.note || '');
+
+      // Small visual reveal for the photo frame
+      requestAnimationFrame(()=>{
+        const frame = document.getElementById('photoFrame');
+        if(frame) frame.classList.add('visible');
+      });
+    })();
+  </script>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
