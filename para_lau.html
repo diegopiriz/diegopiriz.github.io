@@ -404,7 +404,7 @@
       // Compute day index based on local browser date with base 2026-01-01
       // Element 0 should correspond to 2026-01-01, element 1 -> 2026-01-02, etc.
       // Use a modulo that always returns a non-negative index so negative days wrap.
-      const baseLocal = new Date(2026, 11, 22); // local midnight 2026-01-01
+      const baseLocal = new Date(2025, 11, 22); // local midnight 2026-01-01
       const todayLocalMidnight = new Date();
       todayLocalMidnight.setHours(0,0,0,0);
       // Use Math.round to avoid DST-related fractional-day issues when dividing by ms/day
